@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, Pressable, RefreshControl, StyleSheet, Text, useColorScheme, View } from 'react-native'
+import { ActivityIndicator, Alert, FlatList, Image, Pressable, RefreshControl, StyleSheet, Text, useColorScheme, View } from 'react-native'
 import React, { memo, useCallback, useMemo, useState } from 'react'
 import { useProducts } from '@/query/productQuery';
 import { darkTheme, lightTheme } from '@/constants/darkmode';
@@ -6,19 +6,23 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
 import { Ionicons } from '@expo/vector-icons';
-const ProductResult = () => {
+
+interface StateProps {
+    selectCategory: string;
+}
+
+const ProductResult = ({ selectCategory }: StateProps) => {
     const colorScheme = useColorScheme();
     const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
     const [loading, setLoading] = useState<boolean>(false);
     const queryClient = useQueryClient();
-    const category = ""
     const {
         data,
         isPending,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useProducts(category);
+    } = useProducts(selectCategory);
     const loadNext = () => {
         if (hasNextPage) {
             fetchNextPage();
@@ -34,7 +38,7 @@ const ProductResult = () => {
     );
     const onRefresh = useCallback(() => {
         setLoading(true);
-        queryClient.invalidateQueries({ queryKey: ['products', category] });
+        queryClient.invalidateQueries({ queryKey: ['products', selectCategory] });
         setTimeout(() => {
             setLoading(false);
         }, 1000);
@@ -42,7 +46,7 @@ const ProductResult = () => {
     if (isPending) {
         return (
             <View style={{
-                marginTop: hp(4)
+                marginTop: hp(3)
             }}>
                 <ActivityIndicator size={'small'} color={"gray"} />
             </View>
@@ -66,7 +70,9 @@ const ProductResult = () => {
                                     marginTop: hp(1),
                                     marginHorizontal: wp(4),
                                     borderRadius: wp(2),
-                                }}>
+                                }}
+                                    onPress={() => Alert.alert("Feature Coming Soon", "We’re working hard to bring this page to life. Stay tuned for updates!")}
+                                >
                                     <View style={{
                                         overflow: 'hidden'
                                     }}>
@@ -106,6 +112,7 @@ const ProductResult = () => {
                                                 fontFamily: "PoppinsMedium",
                                                 fontSize: hp(1.5),
                                                 color: "#FFFFFF",
+                                                paddingVertical: hp(0.2)
                                             }}>{item?.dealType}</Text>
                                         </View>
                                     </View>

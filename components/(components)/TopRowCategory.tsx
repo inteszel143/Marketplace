@@ -3,37 +3,14 @@ import React, { memo } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { darkTheme, lightTheme } from '@/constants/darkmode';
-const TopRowCategory = () => {
+import { data } from '@/constants/data';
+interface StateProps {
+    handleMemoSelect: (value: string) => void;
+    selectCategory: string;
+}
+const TopRowCategory = ({ handleMemoSelect, selectCategory }: StateProps) => {
     const colorScheme = useColorScheme();
     const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
-    const data = [
-        {
-            label: "All",
-            icon: "home-outline",
-            color: "red"
-        },
-        {
-            label: "Household",
-            icon: "bolt",
-            color: "red"
-        },
-        {
-            label: "Clothing",
-            icon: "fire",
-            color: "red"
-        },
-        {
-            label: "Garden",
-            icon: "lightning-bolt",
-            color: "yellow"
-        },
-        {
-            label: "More",
-            icon: "dots-horizontal",
-            color: "yellow"
-        },
-
-    ];
     return (
         <View style={{
             paddingVertical: hp(1),
@@ -47,20 +24,22 @@ const TopRowCategory = () => {
                 }}>
                     {
                         data?.map((item, index) => (
-                            <Pressable key={index}>
+                            <Pressable key={index}
+                                onPress={() => handleMemoSelect(item?.value)}
+                            >
                                 <View style={{
                                     alignItems: 'center',
                                     width: wp(20),
-                                }}>
+                                }} >
                                     <View style={{
                                         width: wp(14),
                                         height: wp(14),
                                         borderRadius: wp(50),
-                                        backgroundColor: theme.menu,
+                                        backgroundColor: item?.value === selectCategory ? "red" : theme.menu,
                                         alignItems: 'center',
                                         justifyContent: 'center'
                                     }}>
-                                        <MaterialCommunityIcons name={item?.icon as any} size={hp(3)} color={"red"} />
+                                        <MaterialCommunityIcons name={item?.icon as any} size={hp(3)} color={item?.value === selectCategory ? "#FFFFFF" : "red"} />
                                     </View>
                                     <Text style={{
                                         fontFamily: "PoppinsMedium",

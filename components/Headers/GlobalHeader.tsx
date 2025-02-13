@@ -1,4 +1,4 @@
-import { StyleSheet, Text, useColorScheme, View } from 'react-native'
+import { Alert, Pressable, StyleSheet, Text, useColorScheme, View } from 'react-native'
 import React, { memo } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { darkTheme, lightTheme } from '@/constants/darkmode';
@@ -18,13 +18,15 @@ const GlobalHeader = () => {
                     color: theme.textColor
                 }}>👋 Marketplace</Text>
 
-                <View style={{
+                <Pressable style={{
                     padding: wp(1.5),
                     backgroundColor: theme.menu,
                     borderRadius: wp(50),
-                }}>
+                }}
+                    onPress={() => Alert.alert("Feature Coming Soon", "We’re working hard to bring this page to life. Stay tuned for updates!")}
+                >
                     <Ionicons name='notifications' size={hp(2.6)} color={"red"} />
-                </View>
+                </Pressable>
 
             </View>
         </View>
