@@ -5,7 +5,7 @@ import { darkTheme, lightTheme } from '@/constants/darkmode';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface StateProps {
     selectCategory: string;
@@ -93,10 +93,13 @@ const ProductResult = ({ selectCategory }: StateProps) => {
                                             left: wp(2),
                                             borderRadius: wp(1),
                                         }}>
-                                            <Text style={{
-                                                fontFamily: "PoppinsMedium",
-                                                fontSize: hp(1.4),
-                                            }}>{item?.category}</Text>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: wp(0.5) }}>
+                                                <MaterialCommunityIcons name={item?.category === "Household" ? "bolt" : item?.category === "Clothing" ? "fire" : "lightning-bolt"} size={hp(2.)} color={"red"} />
+                                                <Text style={{
+                                                    fontFamily: "PoppinsMedium",
+                                                    fontSize: hp(1.4),
+                                                }}>{item?.category}</Text>
+                                            </View>
                                         </View>
 
                                         <View style={{
